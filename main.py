@@ -50,10 +50,13 @@ def readOriginalFile(file,data):
                     temp = spl[8].split(',')
                     remove_title = False
                     for t in temp:
+                        # checks if all categories listed are approved types of categories
                         if t not in approvedTypes:
                             remove_title=True
                     if not remove_title:
                         myDict[spl[0]]=spl[2]+spl[5]+'\t'+spl[7]+'\t'+spl[8]
+        elif file=='name.basics.tsv':
+            myDict[spl[0]]=spl[1]+'\t'+spl[2]+'\t'+spl[3]
     f.close()
     return myDict
 
@@ -74,6 +77,13 @@ def getAllTypes():
     f.close()
     return types
 
+def cleanseNames():
+    names = readOriginalFile('name.basics.tsv',{})
+    writeDictionaryToFile(names,'actors.tsv')
+
+# Once titles cleansed to us only after 1979, non-porn, of particular categories
+# Writes these movies to movies.tsv OR
+# Once names are cleansed, writes to actors.tsv
 def writeDictionaryToFile(myDict,file):
     print('Writing '+file)
     f = open(file,'w',encoding='utf-8')
@@ -88,11 +98,11 @@ def titleCleanse():
     movies = readOriginalFile('title.basics.tsv',usOnly)
     writeDictionaryToFile(movies,'movies.tsv')
 
-
 def main():
     if not os.path.isfile('name.basics.tsv') or not os.path.isfile('title.akas.tsv') or not os.path.isfile('title.basics.tsv'):
         downloadDataSet(['name.basics','title.basics','title.akas'])
     titleCleanse()
+    cleanseNames()
 
 if __name__=='__main__':
     main()
