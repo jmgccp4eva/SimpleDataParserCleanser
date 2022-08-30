@@ -1,4 +1,6 @@
 import os
+import time
+from bs4 import BeautifulSoup
 import requests
 import gzip
 import shutil
