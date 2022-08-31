@@ -1,6 +1,4 @@
 import os
-import time
-from bs4 import BeautifulSoup
 import requests
 import gzip
 import shutil
@@ -54,7 +52,7 @@ def readOriginalFile(file,data):
                         if t not in approvedTypes:
                             remove_title=True
                     if not remove_title:
-                        myDict[spl[0]]=spl[2]+spl[5]+'\t'+spl[7]+'\t'+spl[8]
+                        myDict[spl[0]]=spl[2]+'\t'+spl[5]+'\t'+spl[7]+'\t'+spl[8]
         elif file=='name.basics.tsv':
             myDict[spl[0]]=spl[1]+'\t'+spl[2]+'\t'+spl[3]
     f.close()
